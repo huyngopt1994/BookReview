@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book and Review</title>
+    {% load static %}
+        <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<main>
+    <header>
+    <p class="header_right"><a href="/books">Home</a> <a href="/logout">Logout</a></p>
+
+    </header>
+    <h3>{{book.title}}</h3>
+    <p>Author: {{book.author}}</p>
+    <div class="left_content">
+        <h3>Reviews</h3>
+        {% for review in reviews %}
+            <div class="review_content">
+                <p class="italic">Rating: {% for i in review.rating %}
+                        <span class="fa fa-star checked"></span>
+                        {% endfor %}
+                        {% for i in review.un_rating %}
+                        <span class="fa fa-star-o "></span>
+                        {% endfor %}
+                    </p>
+
+                <p><a href="/users/{{review.user_id}}">{{review.user_name}}</a> says: <span class="italic">{{review.content}}</span></p>
+                
+                <p> <span class="italic">{{review.created_at}}</span>
+                {% if review.user_id == request.session.user_id %}
+                <a class="delete_review" href="/delete/review/{{book.id}}/{{review.user_id}}">Delete this Review</a>
+                {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="right_content">
+        <form action="/create/review/{{book.id}}" method="post">
+            {% csrf_token %}
+            <h3>Add a Review</h3>
+            <textarea name="custom_review" cols="40" rows="5"></textarea>
+            <br>
+            <br>
+            <label>
+                Ratings: <select class="rating" name="custom_rating" >
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected="selected">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select> stars
+            </label>
+            <br>
+            <input class="submit" type="submit" value="Submit Review">
+        </form>
+    </div>
+</main>
+</body>
+</html>

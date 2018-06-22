@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add book</title>
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
+</head>
+<body>
+
+<main>
+        <header>
+        <p class="header_right"><a href="/books">Home</a>
+        <a href="/logout">Logout</a>
+
+    </header>
+    <h3>Add a new book Title and a review</h3>
+    <form action="/books/add" method="POST">
+        {% csrf_token %}
+         <p class="title strong">Book Title:</p>
+            <input type="text" name="title">
+        <br>
+        <span class="strong">Author:</span>
+        <br>
+            <p class="author_title">Choose from a list:</p>
+                <select name="default_author">
+                    {% for author in authors %}
+                    <option value="{{ author.author}} ">{{ author.author }}</option>
+                    {% endfor %}
+                </select>
+        <br>
+            <p class="author_title">Or add a new author:</p>
+                <input type="text" name="new_author">
+        <div class="text_area">
+            <p class="title strong">Review:</p>
+            <textarea name="review" cols="30" rows="10"></textarea>
+        </div>
+        <br>
+        <label class="strong">
+            Rating: <select class="rating" name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected="selected">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select> stars
+        </label>
+        <br>
+        <input class="submit" type="submit" value="Add book and review">
+    </form>
+
+</main>
+
+</body>
+</html>

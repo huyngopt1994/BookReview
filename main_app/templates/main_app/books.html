@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <main>
+        <header>
+        <p class="header_left">Welcome {{user_name}}</p>
+        <p class="header_right"><a href="/books/add">Add Book and Review</a> <a href="/logout">Logout</a></p>
+        </header>
+        <article>
+                <div class="left_content">
+                    <h3>Recent Book Reviews</h3>
+
+                         {% for item in items %}
+                    <div>
+                    <a class="book_title" href="/books/{{item.id}}">{{item.title}}</a>
+                    <p>Rating: {% for i in item.rating %}
+                        <span class="fa fa-star checked"></span>
+                        {% endfor %}
+                        {% for i in item.un_rating %}
+                        <span class="fa fa-star-o "></span>
+                        {% endfor %}
+                    </p>
+                    <p><a href="/users/{{item.user_id}}">{{item.user_name}}</a> says: <span class="italic">{{item.content}}</span></p>
+                    <p class="italic">Posted on {{item.created_at}}</p>
+                      </div>
+                {% endfor %}
+
+
+            </div>
+            <div class="right_content">
+                <h3>Other Books with Reviews</h3>
+                <div class="float_content">
+                    {% for book in books %}
+                    <p><a href="/books/{{book.0}}">{{book.1}}</a></p>
+                {% endfor %}
+                </div>
+
+            </div>
+        </a>
+        </article>
+    </main>
+</body>
+</html>
