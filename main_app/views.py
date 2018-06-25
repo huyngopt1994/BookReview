@@ -50,8 +50,8 @@ def logout(request):
 
 def show_books(request):
 	# This is method to show all books
-	if request.session['user_id'] is None:
-		messages.error('You should login if want to show informations')
+	if request.session.get('user_id',None) is None:
+		messages.error(request,'You should login if want to show informations')
 		return redirect('/')
 	else:
 		# get detaied informations for books
@@ -79,7 +79,7 @@ def show_books(request):
 		return render(request,'main_app/books.html',{'items':items,'books':books})
 
 def add_book(request):
-	if request.session['user_id'] is None:
+	if request.session.get('user_id',None) is None:
 		messages.error('You should login if want to show informations')
 		return redirect('/')
 	else:
@@ -111,7 +111,7 @@ def add_book(request):
 
 def show_book(request, book_id):
 	"""This is method to render information of a book."""
-	if request.session['user_id'] is None:
+	if request.session.get('user_id',None) is None:
 		messages.error(request, 'You should login if want to show informations')
 		return redirect('/')
 	else:
@@ -135,7 +135,7 @@ def show_book(request, book_id):
 
 def show_user(request, user_id):
 	"""This is method to render information for a user."""
-	if request.session['user_id'] is None:
+	if request.session.get('user_id',None) is None:
 		messages.error('You should login if want to show informations')
 		return redirect('/')
 	else:
@@ -151,7 +151,7 @@ def show_user(request, user_id):
 		                                              'books':books})
 
 def delete_review(request, book_id, review_id):
-	if request.session['user_id'] is None:
+	if request.session.get('user_id',None) is None:
 		messages.error('You should login if want to show informations')
 		return redirect('/')
 	else:
@@ -163,7 +163,7 @@ def delete_review(request, book_id, review_id):
 		return redirect('/books/%s' % book_id)
 
 def create_review(request, book_id):
-	if request.session['user_id'] is None:
+	if request.session.get('user_id',None) is None:
 		messages.error('You should login if want to show informations')
 		return redirect('/')
 	else:

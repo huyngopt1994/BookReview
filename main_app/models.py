@@ -5,7 +5,8 @@ from django.db import models
 import bcrypt
 import re
 from datetime import datetime
-
+# https://stackoverflow.com/questions/3034910/whats-the-best-way-to-migrate-a-django-db-from-sqlite-to-mysql
+# this is url to migrate data fromm sqlite3 to mysql
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 
 NAME_REGEX = re.compile(r'^[A-Za-z]+\s?[a-zA-z]+$') # because your name should start from a character
@@ -60,7 +61,7 @@ class UserManager(models.Manager):
 			errors.append('email is incorrect')
 		return errors
 
-
+# "https://stackoverflow.com/questions/18547468/multiple-databases-and-multiple-models-in-django" : link to set up multiple databases
 class User(models.Model):
 	name = models.CharField(max_length=255)
 	alias = models.CharField(max_length=255)
@@ -77,7 +78,6 @@ class Book(models.Model):
 	poster = models.ForeignKey(User, related_name="uploaded_books")
 	created_at = models.DateTimeField(auto_now_add=True)
 
-
 # Create a middle table to handle many to many relationship
 class Review(models.Model):
 	rating = models.IntegerField(default=0)
@@ -85,3 +85,18 @@ class Review(models.Model):
 	reviewer = models.ForeignKey('User', related_name="reviews_left")
 	book = models.ForeignKey('Book', related_name="reviews")
 	created_at = models.DateTimeField(auto_now_add=True)
+
+"""
+Step to migrate data from sqlite3 to mysql
+1.python manage.py dumpdata > datadump.json
+2. Change settings.py to your mysql
+3. Make sure you can connect on your mysql (permissions,etc)
+4. python manage.py migrate --run-syncdb
+5. Exclude contentype data with this snippet
+
+from django.contrib.contenttypes.models import ContentType
+ContentType.objects.all().delete()
+quit()
+
+6.python manage.py loaddata datadump.json
+"""
