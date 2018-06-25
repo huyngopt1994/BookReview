@@ -34,11 +34,12 @@ def login(request):
 			# ok login should succesfully
 			user = User.objects.get(email=post_data['email'])
 			request.session['user_id'] = user.id
+			request.session['user_name'] = user.name
 			# ok should redirect to main_page
 
 		else:
 			for error in result:
-				message.error(request,error)
+				messages.error(request,error)
 		return redirect('/books')
 def logout(request):
 	# yup we log out :

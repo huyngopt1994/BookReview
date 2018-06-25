@@ -11,7 +11,7 @@
 <body>
     <main>
         <header>
-        <p class="header_left">Welcome {{user_name}}</p>
+        <p class="header_left">Welcome {{request.session.user_name}}</p>
         <p class="header_right"><a href="/books/add">Add Book and Review</a> <a href="/logout">Logout</a></p>
         </header>
         <article>
