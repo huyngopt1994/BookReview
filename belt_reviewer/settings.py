@@ -75,18 +75,18 @@ WSGI_APPLICATION = 'belt_reviewer.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 # Define the database manager to setup the various projects
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'belt_reviewer',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    },
-#  'old_database': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'belt_reviewer',
+#        'USER': 'root',
+#        'PASSWORD': 'root',
+#        'HOST': 'localhost',
+#        'PORT': '3306',
+#    },
+  'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
@@ -128,3 +128,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+MEDIA_URL = '/media/'
+MEDIA_URL = os.path.join(BASE_DIR,"media/")

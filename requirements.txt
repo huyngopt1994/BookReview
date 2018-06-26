@@ -3,3 +3,4 @@ bcrypt
 django-extensions
 gunicorn
 mysql-python
+Pillow

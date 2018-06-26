@@ -133,6 +133,26 @@ def show_book(request, book_id):
 		return render(request, 'main_app/book.html', {'reviews': my_reviews,
 		                                              'book':book})
 
+def edit_book(request, book_id):
+	"""This is method to render information of a book."""
+	if request.session.get('user_id',None) is None:
+		messages.error(request, 'You should login if want to show informations')
+		return redirect('/')
+	else:
+		if request.method == 'GET':
+			book = Book.objects.get(id=book_id)
+			return render(request,'main_app/edit_book.html',{'book':book})
+		elif request.method == 'POST':
+			post_data = request.POST
+			if request.FILES['book_image']:
+				book_image = request.FILES['book_image']
+			author = post_data['author']
+			book = Book.objects.get(id=book_id)
+			book.author = author
+			book.book_image = book_image
+			book.save()
+			return redirect('/books/%s' % book.id)
+
 def show_user(request, user_id):
 	"""This is method to render information for a user."""
 	if request.session.get('user_id',None) is None:

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/books/{{book.id}}/edit" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p class="title">Author</p>
+    <p>
+        <input type="text" value="{{book.author}}" name="author">
+    </p>
+    <p classs="title"> Image Path</p>
+    <p><input type="file"  name="book_image"></p>
+    <p>{{book.book_image}}</p>
+    <img src="{{book.book_image}}" alt="">
+    <input type="submit" value="Edit Book">
+</form>
+<a href="/books/{{book.id}}"><button>Back</button></a>
+
+</body>
+</html>

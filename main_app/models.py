@@ -76,6 +76,7 @@ class Book(models.Model):
 	title = models.CharField(max_length=255)
 	author = models.CharField(max_length=255)
 	poster = models.ForeignKey(User, related_name="uploaded_books")
+	book_image = models.ImageField(upload_to='book_images/', default='meida/book_images/None/no-img.jpg')
 	created_at = models.DateTimeField(auto_now_add=True)
 
 # Create a middle table to handle many to many relationship
