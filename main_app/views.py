@@ -35,6 +35,7 @@ def login(request):
 			user = User.objects.get(email=post_data['email'])
 			request.session['user_id'] = user.id
 			request.session['user_name'] = user.name
+			request.session['admin'] = user.admin
 			# ok should redirect to main_page
 
 		else:
@@ -82,7 +83,7 @@ def add_book(request):
 	if request.session.get('user_id',None) is None:
 		messages.error('You should login if want to show informations')
 		return redirect('/')
-	else:
+	elif request.session['admin'] is True:
 		if request.method == 'GET':
 			# This is GET method to render html file
 			authors = Book.objects.all().values('author').distinct()
@@ -107,7 +108,9 @@ def add_book(request):
 			                      book = book)
 
 			return redirect('/books/%s' % book.id)
-
+	else:
+		messages.error(request, 'Your account should be admin to do it')
+		return redirect('/')
 
 def show_book(request, book_id):
 	"""This is method to render information of a book."""
@@ -138,7 +141,7 @@ def edit_book(request, book_id):
 	if request.session.get('user_id',None) is None:
 		messages.error(request, 'You should login if want to show informations')
 		return redirect('/')
-	else:
+	elif request.session['admin'] is True:
 		if request.method == 'GET':
 			book = Book.objects.get(id=book_id)
 			return render(request,'main_app/edit_book.html',{'book':book})
@@ -152,6 +155,9 @@ def edit_book(request, book_id):
 			book.book_image = book_image
 			book.save()
 			return redirect('/books/%s' % book.id)
+	else:
+		messages.error(request, 'Your account should be admin to do it')
+		return redirect('/')
 
 def show_user(request, user_id):
 	"""This is method to render information for a user."""

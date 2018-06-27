@@ -12,7 +12,11 @@
 
 <main>
     <header>
-         <p class="header_left"> <a href="/books/{{book.id}}/edit">Edit</a></p>
+         <p class="header_left">
+              {% if request.session.admin %}
+             <a href="/books/{{book.id}}/edit">Edit</a>
+            {% endif %}
+         </p>
     <p class="header_right"><a href="/books">Home</a> <a href="/logout">Logout</a></p>
 
     </header>
