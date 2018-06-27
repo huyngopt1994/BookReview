@@ -68,7 +68,7 @@ class User(models.Model):
 	email = models.EmailField()
 	password = models.CharField(max_length=255)
 	created_at = models.DateTimeField(auto_now_add=True)
-	admin = models.BooleanField(default=False)
+	admin = models.BooleanField(default=False) #False is normal_user
 	objects = UserManager()
 
 
@@ -76,7 +76,8 @@ class Book(models.Model):
 	title = models.CharField(max_length=255)
 	author = models.CharField(max_length=255)
 	poster = models.ForeignKey(User, related_name="uploaded_books")
-	book_image = models.ImageField(upload_to='book_images/', default='meida/book_images/None/no-img.jpg')
+	book_image = models.ImageField(upload_to='book_images/', default='book_images/no-img.jpg')
+	rating = models.FloatField(default=0)
 	created_at = models.DateTimeField(auto_now_add=True)
 
 # Create a middle table to handle many to many relationship

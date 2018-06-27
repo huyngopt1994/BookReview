@@ -137,7 +137,7 @@ def show_book(request, book_id):
 		                                              'book':book})
 
 def edit_book(request, book_id):
-	"""This is method to render information of a book."""
+	"""This is method to edit information of a book."""
 	if request.session.get('user_id',None) is None:
 		messages.error(request, 'You should login if want to show informations')
 		return redirect('/')
@@ -186,6 +186,20 @@ def delete_review(request, book_id, review_id):
 			review.delete()
 		except Exception as e:
 			print('we can"t delete this review %s' % e)
+			return redirect('/books/%s' % book_id)
+		# recalculate rating for this book
+		#get all reviews
+		my_reviews = Book.reviews.all()
+		sum = 0
+		count = 0
+		for review in my_reviews:
+			sum += review.rating
+			count +=1
+		average = round(sum/count,2)
+		book = Book.objects.get(id=book_id)
+		book.rating = average
+		book.save()
+
 		return redirect('/books/%s' % book_id)
 
 def create_review(request, book_id):
@@ -202,4 +216,27 @@ def create_review(request, book_id):
 								  content = post_data['custom_review'],
 								  reviewer= user,
 								  book = book)
+			# recalculate rating for this book
+			# recalculate rating for this book
+			# get all reviews
+			my_reviews = Book.reviews.all()
+			sum = 0
+			count = 0
+			for review in my_reviews:
+				sum += review.rating
+				count += 1
+			average = round(sum / count, 2)
+			book = Book.objects.get(id=book_id)
+			book.rating = average
+			book.save()
+
 			return redirect('/books/%s' % book_id)
+
+def overview(request):
+	if request.session.get('user_id', None) is None:
+		messages.error('You should login if want to show informations')
+		return redirect('/')
+	else:
+		if request.method == "GET":
+			books = Book.objects.all()
+			return render(request,'main_app/')
