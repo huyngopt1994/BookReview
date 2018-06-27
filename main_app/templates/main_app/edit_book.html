@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
 </head>
 <body>
-<form action="/books/{{book.id}}/edit" method="POST" enctype="multipart/form-data">
+
+ <header>
+        <p class="header_left">Welcome {{request.session.user_name}}</p>
+        <p class="header_right"><a href="/books/{{book.id}}">Back</a> <a href="/logout">Logout</a></p>
+ </header>
+<article>
+
+</article>
+ <form action="/books/{{book.id}}/edit" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <p class="title">Author</p>
     <p>
@@ -13,11 +24,9 @@
     </p>
     <p classs="title"> Image Path</p>
     <p><input type="file"  name="book_image"></p>
-    <p>{{book.book_image}}</p>
-    <img src="{{book.book_image}}" alt="">
+    <img src="{{book.book_image.url}}" alt="failed" />
     <input type="submit" value="Edit Book">
 </form>
-<a href="/books/{{book.id}}"><button>Back</button></a>
 
 </body>
 </html>

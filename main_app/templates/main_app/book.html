@@ -12,12 +12,15 @@
 
 <main>
     <header>
+         <p class="header_left"> <a href="/books/{{book.id}}/edit">Edit</a></p>
     <p class="header_right"><a href="/books">Home</a> <a href="/logout">Logout</a></p>
 
     </header>
-    <a href="/books/{{book.id}}/edit"><button>Edit book</button></a>
+
     <h3>{{book.title}}</h3>
+     <img src="{{book.book_image.url}}" alt=""/>
     <p>Author: {{book.author}}</p>
+
     <div class="left_content">
         <h3>Reviews</h3>
         {% for review in reviews %}
