@@ -18,11 +18,15 @@
 </article>
  <form action="/books/{{book.id}}/edit" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+     <p class="title">Title</p>
+     <p>
+         <input type="text" value="{{book.title}}" name="title">
+     </p>
     <p class="title">Author</p>
     <p>
         <input type="text" value="{{book.author}}" name="author">
     </p>
-    <p classs="title"> Image Path</p>
+    <p class="title"> Image Path</p>
     <p><input type="file"  name="book_image"></p>
     <img src="{{book.book_image.url}}" alt="failed" />
     <input type="submit" value="Edit Book">

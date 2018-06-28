@@ -147,12 +147,17 @@ def edit_book(request, book_id):
 			return render(request,'main_app/edit_book.html',{'book':book})
 		elif request.method == 'POST':
 			post_data = request.POST
-			if request.FILES['book_image']:
-				book_image = request.FILES['book_image']
+
 			author = post_data['author']
+			title = post_data['title']
 			book = Book.objects.get(id=book_id)
 			book.author = author
-			book.book_image = book_image
+
+			if request.FILES.get('book_image', None) is not None:
+				book_image = request.FILES['book_image']
+				book.book_image = book_image
+
+			book.title = title
 			book.save()
 			return redirect('/books/%s' % book.id)
 	else:
@@ -189,13 +194,16 @@ def delete_review(request, book_id, review_id):
 			return redirect('/books/%s' % book_id)
 		# recalculate rating for this book
 		#get all reviews
-		my_reviews = Book.reviews.all()
+		book = Book.objects.get(id=book_id)
+		my_reviews = book.reviews.all()
 		sum = 0
 		count = 0
 		for review in my_reviews:
 			sum += review.rating
 			count +=1
-		average = round(sum/count,2)
+		sum = float(sum)
+		count = float(count)
+		average = round(sum/count, 1)
 		book = Book.objects.get(id=book_id)
 		book.rating = average
 		book.save()
@@ -219,13 +227,16 @@ def create_review(request, book_id):
 			# recalculate rating for this book
 			# recalculate rating for this book
 			# get all reviews
-			my_reviews = Book.reviews.all()
+			my_reviews = book.reviews.all()
 			sum = 0
 			count = 0
 			for review in my_reviews:
 				sum += review.rating
 				count += 1
-			average = round(sum / count, 2)
+			sum = float(sum)
+			count =float(count)
+			average = round(sum / count, 1)
+
 			book = Book.objects.get(id=book_id)
 			book.rating = average
 			book.save()
@@ -239,4 +250,10 @@ def overview(request):
 	else:
 		if request.method == "GET":
 			books = Book.objects.all()
-			return render(request,'main_app/')
+			# show information of user
+			user = User.objects.get(id=request.session.get('user_id'))
+
+			reviewed_books = user.reviews_left.all().values('book').distinct()
+			total_reviews = len(reviewed_books)
+			return render(request,'main_app/overview.html', {'books':books,
+			                                                 'total_reviews': total_reviews})

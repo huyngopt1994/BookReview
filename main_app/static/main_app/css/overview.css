@@ -1,0 +1,33 @@
+.right_bar > .book_item {
+width: 200px;
+height: 220px;
+}
+
+.book_item img {
+width: 180px;
+height:180px;
+}
+
+.book_item {
+float:left;
+margin-right:5px;
+}
+
+.right_bar{
+display: inline-block;
+}
+.left_bar {
+vertical-align: top;
+width: 150px;
+display: inline-block;
+}
+span.stars, span.stars span {
+    display: block;
+    background: url(icon/stars.png) 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
+}

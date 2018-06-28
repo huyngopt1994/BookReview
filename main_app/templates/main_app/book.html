@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <title>Add Book and Review</title>
     {% load static %}
-        <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
+     <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
+     <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
+     <link rel="stylesheet" href="{% static 'main_app/css/overview.css' %}">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <script src="{% static 'main_app/js/overview.js' %}"></script>
+
+
+
 </head>
 <body>
 
@@ -24,7 +31,10 @@
     <h3>{{book.title}}</h3>
      <img src="{{book.book_image.url}}" alt=""/>
     <p>Author: {{book.author}}</p>
-
+    <p>Rating: {{ book.rating}}
+        <span class="stars">{{book.rating}}
+        </span>
+    </p>
     <div class="left_content">
         <h3>Reviews</h3>
         {% for review in reviews %}

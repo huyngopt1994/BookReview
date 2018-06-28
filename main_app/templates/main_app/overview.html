@@ -2,12 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Overview</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {%load static %}
+    <link rel="stylesheet" href="{% static 'main_app/css/overview.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app/css/header.css' %}">
 </head>
 <body>
-{% for book in books %}
-    <p>{{book.title}}</p>
-    <p>{{book.average }}</p>
-{% endfor %}
+    <header>
+        <p class="header_right">
+            {% if request.session.admin %}
+            <a href="/books/add">Add Book and Review</a>
+            {% endif %}
+            <a href="/books">Home</a>
+            <a href="/logout">Logout</a></p>
+        </header>
+<div class="left_bar">
+<p>Hello {{ request.session.user_name }}
+    <br>
+    Reviewed books: {{total_reviews}}
+</p>
+</div>
+<div class="right_bar">
+    {% for book in books %}
+    <div class="book_item">
+        <a href="/books/{{book.id}}"><img src="{{book.book_image.url}}" alt="Not found" /></a>
+
+        <span class="stars">{{book.rating}}
+            </span>
+
+    </div>
+    {% endfor %}
+</div>
+
 </body>
+<script src="{% static 'main_app/js/overview.js' %}"></script>
 </html>
