@@ -17,6 +17,19 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+from main_app.models import  User , Book, Review
+
+class UserAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(User, UserAdmin)
+
+class BookAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Book, BookAdmin)
+
+class ReviewAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Review, ReviewAdmin)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
